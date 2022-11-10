@@ -66,13 +66,48 @@
     crossorigin="anonymous"></script>
 
   <script>
-    function onFormSubmit(event) {
+    async function onFormSubmit(event) {
       // We call this to avoid the default action for the event.
       // In this case, this is a submit event, the default action is
       // the refresh of the page.
       // We dont't want that...
       event.preventDefault()
-      console.log("CALLING THIS!!!")
+
+
+      const newEvent = {
+        name: document.querySelector('#event-name').value,
+        description: document.querySelector('#event-description').value,
+        price: document.querySelector('#event-price').value,
+        time: document.querySelector('#event-time').value,
+      }
+
+      const options = {
+        method: 'POST',
+        // BODY NEEDS TO BE A STRING, BECAUSE THIS IS HTTP,
+        // so we convert the object into a string, JSON string
+        body: JSON.stringify(newEvent),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+
+      try { // JavaScript please TRY to execute this block of code...
+        // Whenever an erorr presents inside here, we will move directly
+        // to the catch block, and we will execute the code there.
+
+        const response = await fetch('asdasdsadsasad', options)
+        // If there is an error here, when fetching...
+        // This code will not go forward -> we jump to the catch block.
+
+        if (response.ok) { // Because we want to do this only if the response code is 200 OK
+          alert("Appointment created successfully!")
+        } else {
+          throw new Error("ERROR WHILE EXECUTING THE TRY BLOCK!")
+        }
+
+      } catch (error) { // Any error will be catched here.
+        console.error(error)
+      }
     }
 
   </script>
