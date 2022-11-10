@@ -43,18 +43,18 @@
 
         </div>
         <button type="button" class="btn btn-success" onclick="">Edit Event</button>
+        <button type="button" class="btn btn-danger" onclick="onDelete()">Delete Event</button>
       </div>
     </div>
   </div>
 
   <script>
+    const params = new URLSearchParams(
+      window.location.search
+    )
+    const appointmentId = params.get('appointmentId')
 
     async function getAppointment() {
-      const params = new URLSearchParams(
-        window.location.search
-      )
-
-      const appointmentId = params.get('appointmentId')
 
       const response = await fetch(`https://striveschool-api.herokuapp.com/api/agenda/${appointmentId}`)
       const appointment = await response.json()
@@ -80,6 +80,30 @@
     window.onload = async () => {
       const appointment = await getAppointment()
       renderAppointment(appointment)
+    }
+
+    async function onDelete() {
+
+      try {
+
+        if (confirm("Do you really want to delete this event?")) {
+          const options = { method: 'DELETE' }
+          const response = await fetch(
+            `https://striveschool-api.herokuapp.com/api/agenda/${appointmentId}`,
+            options
+          )
+          if (response.ok) {
+            // This is like an a tag, but in JavaScript
+            window.location.assign('index.html')
+          } else {
+            alert("Error while deleting!")
+          }
+        }
+
+      } catch (error) {
+        alert(`Some erorr occured: ${error}`)
+      }
+
     }
   </script>
 
