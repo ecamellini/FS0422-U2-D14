@@ -40,16 +40,7 @@
       <div class="col-md-8 mt-5">
         <h6 class="mb-3">Event Details</h6>
         <div id="event-details">
-          <h1 class="display-4">NAME HERE</h1>
-          <p>DESCRIPTION HERE</p>
-          <p class="text-monospace">Date & time here...</p>
-          <h3 class="mb-3">PRICE€<h3>
-              <h6 class="pl-2 py-3 bg-light">Server Details</h6>
-              <ul class="list-group list-group-flush mb-4">
-                <li class="list-group-item pl-2"><b>id: </b>The id</li>
-                <li class="list-group-item pl-2"><b>createdAt: </b>Date of creation</li>
-                <li class="list-group-item pl-2"><b>updatedAt: </b>Date of last update</li>
-              </ul>
+
         </div>
         <button type="button" class="btn btn-success" onclick="">Edit Event</button>
       </div>
@@ -59,15 +50,36 @@
   <script>
 
     async function getAppointment() {
-      const url = new URLSearchParams(window.location.search)
+      const params = new URLSearchParams(
+        window.location.search
+      )
 
-      const appointmentId = url.get('appointmentId')
+      const appointmentId = params.get('appointmentId')
+
       const response = await fetch(`https://striveschool-api.herokuapp.com/api/agenda/${appointmentId}`)
-      console.log(await response.json())
+      const appointment = await response.json()
+      return appointment
+    }
+
+    function renderAppointment(appointment) {
+      const date = new Date(appointment.time)
+
+      document.querySelector('#event-details').innerHTML = `
+      <h1 class="display-4">${appointment.name}</h1>
+      <p>${appointment.description}</p>
+      <p class="text-monospace">${date.toLocaleDateString()} ${date.toLocaleTimeString()}</p>
+      <h3 class="mb-3">${appointment.price}€<h3>
+      <h6 class="pl-2 py-3 bg-light">Server Details</h6>
+      <ul class="list-group list-group-flush mb-4">
+        <li class="list-group-item pl-2"><b>id: </b>${appointment._id}</li>
+        <li class="list-group-item pl-2"><b>createdAt: </b>${appointment.createdAt}</li>
+        <li class="list-group-item pl-2"><b>updatedAt: </b>${appointment.updatedAt}</li>
+      </ul>`
     }
 
     window.onload = async () => {
-      getAppointment()
+      const appointment = await getAppointment()
+      renderAppointment(appointment)
     }
   </script>
 

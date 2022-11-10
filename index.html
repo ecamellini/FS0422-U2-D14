@@ -53,15 +53,17 @@
     function renderAppointments(listOfAppointments) {
       let list = document.querySelector('.list-group')
 
-      listOfAppointments.forEach(({ name, price, _id }, index) => {
+      listOfAppointments.forEach((appointment, index) => {
+        // We could aslo have desctructured the information as follows
+        // listOfAppointments.forEach(({ name, price, _id }, index) => {
         const appointmentLi = document.createElement('li')
         appointmentLi.classList.add('list-group-item')
         appointmentLi.innerHTML = `<div class="row px-3 align-items-center">
                                      <div class="mr-1 col row justify-content-between align-items-center">
-                                       <div>${index + 1} - ${name}</div>
-                                       <div class="badge badge-dark">${price}€</div>
+                                       <div>${index + 1} - ${appointment.name}</div>
+                                       <div class="badge badge-dark">${appointment.price}€</div>
                                      </div>
-                                     <a class"col" href="details.html?appointmentId=${_id}">VIEW DETAILS</a>
+                                     <a class"col" href="details.html?appointmentId=${appointment._id}">VIEW DETAILS</a>
                                    </div>`
 
         list.appendChild(appointmentLi)
