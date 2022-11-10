@@ -42,7 +42,7 @@
         <div id="event-details">
 
         </div>
-        <button type="button" class="btn btn-success" onclick="">Edit Event</button>
+        <button type="button" class="btn btn-success" onclick="onEdit()">Edit Event</button>
         <button type="button" class="btn btn-danger" onclick="onDelete()">Delete Event</button>
       </div>
     </div>
@@ -105,6 +105,11 @@
       }
 
     }
+
+    function onEdit() {
+      window.location.assign(`backoffice.html?appointmentId=${appointmentId}`)
+    }
+
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
